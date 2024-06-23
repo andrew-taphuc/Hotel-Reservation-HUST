@@ -1,3 +1,3 @@
 Hi, this is my hotel project!
 You are free to clone this prj to your local.
-This is newline
+This is not newline
