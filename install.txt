@@ -1,6 +1,10 @@
+for client:
 npm i express
 npm i cors
 npm i pg
 npm i morgan
 npm i dotenv
+
+for server:
+npm i nodemon
 
