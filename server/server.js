@@ -192,10 +192,6 @@ app.put("/api/v1/hotels/booking/detail/:booking_id/update", async (req, res) => 
             [first_name, last_name, email, phone, customerIdFromBooking]
         );
 
-        // const update = await db.query(
-        //     "UPDATE bookings SET check_in_date = $1, check_out_date = $2, total_price = $3 RETURNING *",
-        //     [req.body.check_in_date,req.body.check_out_date,req.body.total_price]
-        // );
         const update = await db.query(
             "UPDATE bookings SET check_in_date = $1, check_out_date = $2 WHERE booking_id = $3 RETURNING *",
             [req.body.check_in_date,req.body.check_out_date, booking_id]
