@@ -669,7 +669,25 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
-
--- SELECT * FROM get_booking_details() ORDER BY booking_id DESC LIMIT 5;
-
+-- FUNCTION TO AUTOMATICALLY UPDATE ROOM PRICE WHEN CHANGING DATE
+CREATE OR REPLACE FUNCTION trg_update_prices()
+RETURNS TRIGGER AS $$
+BEGIN
+    UPDATE bookings
+    SET total_price = (NEW.check_out_date - NEW.check_in_date) * rooms.room_price
+    FROM rooms
+    WHERE bookings.room_id = rooms.room_id
+      AND bookings.booking_id = NEW.booking_id;
+    UPDATE payments
+    SET amount = bookings.total_price
+    FROM bookings
+    WHERE payments.booking_id = bookings.booking_id
+      AND payments.booking_id = NEW.booking_id;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER update_prices
+AFTER UPDATE OF check_in_date, check_out_date ON bookings
+FOR EACH ROW
+WHEN (OLD.check_in_date IS DISTINCT FROM NEW.check_in_date OR OLD.check_out_date IS DISTINCT FROM NEW.check_out_date)
+EXECUTE FUNCTION trg_update_prices();
