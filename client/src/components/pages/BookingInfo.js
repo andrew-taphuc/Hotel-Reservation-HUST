@@ -14,7 +14,7 @@ const BookingInfo = () => {
 
   const startDate = add(parse(formattedStartDate, 'dd/MM/yyyy', new Date()), { days: 1 });
   const endDate = add(parse(formattedEndDate, 'dd/MM/yyyy', new Date()), { days: 1 });
-  const quantity = differenceInDays(endDate, startDate);
+  const quantity = differenceInDays(endDate, startDate) || 1;
   
   console.log(quantity);
   const {selectedHotels} = useContext(HotelsContext);
