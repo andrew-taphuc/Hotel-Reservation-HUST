@@ -13,7 +13,7 @@ function Cards() {
               src='images/img-9.jpg'
               text='Hà Nội - Khám phá 36 phố phường cùng HDV Andrew siêu nhiệt huyết và tận tâm'
               label='Adventure'
-              path='/services'
+              path='/page1'
             />
             <CardItem
               src='images/img-2.jpg'

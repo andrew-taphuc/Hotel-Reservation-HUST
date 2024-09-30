@@ -10,6 +10,7 @@ const SearchItem = (props) => {
   const defaultLocation = state.destination || '';
   const defaultCapacity = state.capacity || 0;
 
+
   const { hotels, setHotels } = useContext(HotelsContext);
   const imageAddresses = [
     "https://img.freepik.com/free-photo/luxury-classic-modern-bedroom-suite-hotel_105762-1787.jpg",
@@ -18,6 +19,7 @@ const SearchItem = (props) => {
     "https://cf.bstatic.com/xdata/images/hotel/max1024x768/305174102.jpg?k=7a349694b5f32a5db2c260fb3acacf410788ed2923814a4bdd0f60a96fbcc932&o=&hp=1",
     "https://cf.bstatic.com/xdata/images/hotel/max1024x768/279746036.jpg?k=129fa468dc8d7619ccf1cffd8f7d945ca2a541bdfd85819d88c1c09bc527545d&o=&hp=1",
     "https://cf.bstatic.com/xdata/images/hotel/max1024x768/217432640.jpg?k=0623f85906ae7de2d7d2fe2abbb3e5e256836022bbb87963c4cb4177ab2740a2&o=&hp=1",
+    "https://media.istockphoto.com/id/627892060/photo/hotel-room-suite-with-view.jpg?s=612x612&w=0&k=20&c=YBwxnGH3MkOLLpBKCvWAD8F__T-ypznRUJ_N13Zb1cU="
     // Add more image URLs if needed
   ];
 
@@ -27,6 +29,7 @@ const SearchItem = (props) => {
   const [capacity, setCapacity] = useState(defaultCapacity);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const response = await HotelFinder.get("/");
@@ -36,14 +39,21 @@ const SearchItem = (props) => {
         console.error(err);
       }
     };
-
+    
     fetchData();
   }, [setHotels]);
 
-  const getRandomImage = () => {
-    const randomIndex = Math.floor(Math.random() * imageAddresses.length);
-    return imageAddresses[randomIndex];
-  };
+
+
+  // useEffect(() => {
+  //   filterHotels();
+  // }, [location, priceRange, capacity, hotels]);
+
+
+  // const getRandomImage = () => {
+  //   const randomIndex = Math.floor(Math.random() * imageAddresses.length);
+  //   return imageAddresses[randomIndex];
+  // };
 
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
@@ -55,10 +65,7 @@ const SearchItem = (props) => {
         setPriceRange(prevRange => ({ ...prevRange, min: value }));
         break;
       case 'priceMax':
-        setPriceRange(prevRange => ({
-          ...prevRange,
-          max: value === '' ? Infinity : value,
-        }));
+        setPriceRange(prevRange => ({ ...prevRange, max: value === null || value === '' ? Infinity : Number(value)}));
         break;
       case 'capacity':
         setCapacity(value);
@@ -69,10 +76,11 @@ const SearchItem = (props) => {
     }
   };
 
+
   const filterHotels = () => {
     const filtered = hotels.filter(hotel => {
       const matchesLocation = location === '' || hotel.hotel_city.toLowerCase().includes(location.toLowerCase());
-      const matchesPrice = hotel.room_price >= priceRange.min && hotel.room_price <= priceRange.max;
+      const matchesPrice = hotel.room_price >= priceRange.min && hotel.room_price <= priceRange.max + 1;
       const matchesCapacity = capacity === 0 || hotel.room_capacity >= capacity;
       return matchesLocation && matchesPrice && matchesCapacity;
     });
@@ -132,7 +140,7 @@ const SearchItem = (props) => {
         return (
           <div className="searchItem" key={hotel.id}>
             <img
-              src={getRandomImage()}
+              src={imageAddresses[hotel.hotel_name.length%5]}
               alt=""
               className="siImg"
             />

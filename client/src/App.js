@@ -13,6 +13,7 @@ import BookingInfo from './components/pages/BookingInfo';
 import Admin from './components/pages/Admin';
 import BookingDetail from './components/pages/BookingDetail';
 import UpdateBookingDetail from './components/pages/UpdateBookingDetail';
+import Page1 from './components/TourPage/Page1';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path='/admin' element={<Admin/>}/>
           <Route path='/admin/booking/:booking_id' element={<BookingDetail/>}/>
           <Route path='/admin/booking/:booking_id/update' element={<UpdateBookingDetail/>}/>
+          <Route path='/page1' element={<Page1 />} />
         </Routes>
       </Router>
     </>

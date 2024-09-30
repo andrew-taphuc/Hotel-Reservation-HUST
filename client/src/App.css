@@ -4,7 +4,10 @@
     padding: 0;
     font-family: 'PT Sans', sans-serif;
   }
-  
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
   .home,
   .products{
     display: flex;
