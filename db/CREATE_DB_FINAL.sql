@@ -55,7 +55,7 @@ CREATE TABLE payments (
     booking_id INT NOT NULL REFERENCES bookings(booking_id) ON DELETE CASCADE,
     payment_method VARCHAR(50),
     payment_date DATE ,
-    payment_status VARCHAR(50) NOT NULL,
+    payment_status VARCHAR(50),
     amount DECIMAL(10, 2) NOT NULL
 );
 
